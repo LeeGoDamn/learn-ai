@@ -1,48 +1,17 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python科学计算 - AI入门学习教程</title>
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="chapter-page">
-    <header class="header">
-        <nav class="nav-container">
-            <a href="../../index.html" class="logo">
-                <i class="fas fa-brain"></i>
-                <span>AI学习之路</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="../../index.html">首页</a></li>
-                <li><a href="../../index.html#outline">学习大纲</a></li>
-                <li><a href="../../index.html#chapters">所有章节</a></li>
-            </ul>
-        </nav>
-    </header>
+# Python科学计算
 
-    <div class="chapter-header">
-        <div class="container">
-            <h1><i class="fab fa-python"></i> Python科学计算</h1>
-            <p>第0章 · 前置知识 | 预计阅读时间：40分钟</p>
-        </div>
-    </div>
+::: info 本章概述
+Python是AI和机器学习领域最流行的编程语言。本章介绍NumPy、Pandas、Matplotlib这三个核心科学计算库的基础用法。
+:::
 
-    <main class="chapter-content">
-        <div class="tip-box">
-            <h4><i class="fas fa-info-circle"></i> 本章概述</h4>
-            <p>Python是AI和机器学习领域最流行的编程语言。本章介绍NumPy、Pandas、Matplotlib这三个核心科学计算库的基础用法。</p>
-        </div>
+## 1. NumPy - 数值计算基础
 
-        <h2>1. NumPy - 数值计算基础</h2>
-        
-        <p>NumPy（Numerical Python）是Python科学计算的基础包，提供了高效的多维数组对象和各种数学函数。</p>
+NumPy（Numerical Python）是Python科学计算的基础包，提供了高效的多维数组对象和各种数学函数。
 
-        <h3>1.1 创建数组</h3>
+### 1.1 创建数组
 
-        <div class="code-block">
-            <pre>import numpy as np
+```python
+import numpy as np
 
 # 从列表创建数组
 arr = np.array([1, 2, 3, 4, 5])
@@ -61,13 +30,13 @@ randn = np.random.randn(3, 3) # 标准正态分布
 
 # 等间隔数组
 linspace = np.linspace(0, 10, 5)  # [0, 2.5, 5, 7.5, 10]
-arange = np.arange(0, 10, 2)      # [0, 2, 4, 6, 8]</pre>
-        </div>
+arange = np.arange(0, 10, 2)      # [0, 2, 4, 6, 8]
+```
 
-        <h3>1.2 数组属性与索引</h3>
+### 1.2 数组属性与索引
 
-        <div class="code-block">
-            <pre>arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+```python
+arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 
 # 数组属性
 print(arr.shape)    # (3, 3) - 形状
@@ -85,13 +54,13 @@ print(arr[0:2, 1:3])  # 子矩阵
 print(arr[arr > 5])   # [6 7 8 9]
 
 # 花式索引
-print(arr[[0, 2], :]) # 第0行和第2行</pre>
-        </div>
+print(arr[[0, 2], :]) # 第0行和第2行
+```
 
-        <h3>1.3 数组运算</h3>
+### 1.3 数组运算
 
-        <div class="code-block">
-            <pre>a = np.array([1, 2, 3])
+```python
+a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
 
 # 逐元素运算
@@ -115,15 +84,15 @@ print(np.sum(arr, axis=0))  # [5 7 9] - 按列求和
 print(np.sum(arr, axis=1))  # [6 15] - 按行求和
 print(np.mean(arr))         # 3.5 - 均值
 print(np.max(arr))          # 6 - 最大值
-print(np.argmax(arr))       # 5 - 最大值索引</pre>
-        </div>
+print(np.argmax(arr))       # 5 - 最大值索引
+```
 
-        <h3>1.4 广播机制</h3>
+### 1.4 广播机制
 
-        <p>广播（Broadcasting）允许NumPy在形状不同的数组间进行算术运算。</p>
+广播（Broadcasting）允许NumPy在形状不同的数组间进行算术运算。
 
-        <div class="code-block">
-            <pre># 广播示例
+```python
+# 广播示例
 a = np.array([[1, 2, 3], [4, 5, 6]])  # 形状 (2, 3)
 b = np.array([10, 20, 30])             # 形状 (3,)
 
@@ -135,24 +104,23 @@ print(a + b)
 # 标量广播
 print(a * 2)
 # [[ 2  4  6]
-#  [ 8 10 12]]</pre>
-        </div>
+#  [ 8 10 12]]
+```
 
-        <div class="tip-box">
-            <h4><i class="fas fa-lightbulb"></i> 广播规则</h4>
-            <p>1. 如果两个数组维度数不同，在维度少的数组前面补1<br>
-            2. 在任一维度上，大小为1的可以与任意大小匹配<br>
-            3. 两个数组在所有维度上兼容才能广播</p>
-        </div>
+::: tip 广播规则
+1. 如果两个数组维度数不同，在维度少的数组前面补1
+2. 在任一维度上，大小为1的可以与任意大小匹配
+3. 两个数组在所有维度上兼容才能广播
+:::
 
-        <h2>2. Pandas - 数据处理利器</h2>
+## 2. Pandas - 数据处理利器
 
-        <p>Pandas提供了DataFrame和Series两种数据结构，非常适合处理表格型数据。</p>
+Pandas提供了DataFrame和Series两种数据结构，非常适合处理表格型数据。
 
-        <h3>2.1 数据结构</h3>
+### 2.1 数据结构
 
-        <div class="code-block">
-            <pre>import pandas as pd
+```python
+import pandas as pd
 
 # Series - 一维数据
 s = pd.Series([1, 2, 3, 4], index=['a', 'b', 'c', 'd'])
@@ -172,13 +140,13 @@ print(df)
 
 # 从文件读取
 # df = pd.read_csv('data.csv')
-# df = pd.read_excel('data.xlsx')</pre>
-        </div>
+# df = pd.read_excel('data.xlsx')
+```
 
-        <h3>2.2 数据选择与过滤</h3>
+### 2.2 数据选择与过滤
 
-        <div class="code-block">
-            <pre># 创建示例数据
+```python
+# 创建示例数据
 df = pd.DataFrame({
     'name': ['Alice', 'Bob', 'Charlie', 'David'],
     'age': [25, 30, 35, 28],
@@ -199,13 +167,13 @@ print(df[df['age'] > 28])   # age大于28的行
 print(df[(df['age'] > 25) & (df['salary'] > 55000)])
 
 # 使用query方法
-print(df.query('age > 28 and salary > 55000'))</pre>
-        </div>
+print(df.query('age > 28 and salary > 55000'))
+```
 
-        <h3>2.3 数据处理</h3>
+### 2.3 数据处理
 
-        <div class="code-block">
-            <pre># 处理缺失值
+```python
+# 处理缺失值
 df = pd.DataFrame({
     'A': [1, 2, None, 4],
     'B': [5, None, 7, 8]
@@ -232,13 +200,13 @@ print(df.groupby('category')['value'].mean())
 # B    35.0
 
 # 排序
-df_sorted = df.sort_values('value', ascending=False)</pre>
-        </div>
+df_sorted = df.sort_values('value', ascending=False)
+```
 
-        <h3>2.4 合并数据</h3>
+### 2.4 合并数据
 
-        <div class="code-block">
-            <pre># 合并DataFrame
+```python
+# 合并DataFrame
 df1 = pd.DataFrame({'id': [1, 2], 'name': ['A', 'B']})
 df2 = pd.DataFrame({'id': [1, 2], 'score': [90, 85]})
 
@@ -247,17 +215,17 @@ merged = pd.merge(df1, df2, on='id')
 
 # concat - 拼接
 df3 = pd.concat([df1, df1], axis=0)  # 垂直拼接
-df4 = pd.concat([df1, df2], axis=1)  # 水平拼接</pre>
-        </div>
+df4 = pd.concat([df1, df2], axis=1)  # 水平拼接
+```
 
-        <h2>3. Matplotlib - 数据可视化</h2>
+## 3. Matplotlib - 数据可视化
 
-        <p>Matplotlib是Python最基础的绘图库，可以创建各种静态、动态和交互式图表。</p>
+Matplotlib是Python最基础的绘图库，可以创建各种静态、动态和交互式图表。
 
-        <h3>3.1 基础绘图</h3>
+### 3.1 基础绘图
 
-        <div class="code-block">
-            <pre>import matplotlib.pyplot as plt
+```python
+import matplotlib.pyplot as plt
 import numpy as np
 
 # 折线图
@@ -273,13 +241,13 @@ plt.title('三角函数图像')
 plt.legend()
 plt.grid(True)
 plt.savefig('plot.png')
-plt.show()</pre>
-        </div>
+plt.show()
+```
 
-        <h3>3.2 常用图表类型</h3>
+### 3.2 常用图表类型
 
-        <div class="code-block">
-            <pre># 散点图
+```python
+# 散点图
 plt.scatter(x, y, c='blue', alpha=0.5)
 
 # 柱状图
@@ -299,16 +267,16 @@ plt.pie(sizes, labels=labels, autopct='%1.1f%%')
 # 热力图
 data = np.random.rand(10, 10)
 plt.imshow(data, cmap='hot')
-plt.colorbar()</pre>
-        </div>
+plt.colorbar()
+```
 
-        <h3>3.3 子图布局</h3>
+### 3.3 子图布局
 
-        <div class="code-block">
-            <pre># 创建子图
+```python
+# 创建子图
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 
-# 在各子图中绑制
+# 在各子图中绘制
 axes[0, 0].plot(x, np.sin(x))
 axes[0, 0].set_title('Sin')
 
@@ -322,25 +290,22 @@ axes[1, 1].plot(x, np.exp(-x))
 axes[1, 1].set_title('Exp')
 
 plt.tight_layout()
-plt.show()</pre>
-        </div>
+plt.show()
+```
 
-        <div class="tip-box">
-            <h4><i class="fas fa-lightbulb"></i> 可视化最佳实践</h4>
-            <ul>
-                <li>始终添加标题、轴标签和图例</li>
-                <li>选择合适的图表类型展示数据</li>
-                <li>使用适当的配色方案</li>
-                <li>保持图表简洁，避免信息过载</li>
-            </ul>
-        </div>
+::: tip 可视化最佳实践
+- 始终添加标题、轴标签和图例
+- 选择合适的图表类型展示数据
+- 使用适当的配色方案
+- 保持图表简洁，避免信息过载
+:::
 
-        <h2>4. Seaborn - 统计可视化</h2>
+## 4. Seaborn - 统计可视化
 
-        <p>Seaborn是基于Matplotlib的高级可视化库，特别适合统计数据可视化。</p>
+Seaborn是基于Matplotlib的高级可视化库，特别适合统计数据可视化。
 
-        <div class="code-block">
-            <pre>import seaborn as sns
+```python
+import seaborn as sns
 
 # 使用内置数据集
 tips = sns.load_dataset('tips')
@@ -359,18 +324,15 @@ corr = tips.select_dtypes(include=[np.number]).corr()
 sns.heatmap(corr, annot=True, cmap='coolwarm')
 
 # 成对关系图
-sns.pairplot(tips, hue='sex')</pre>
-        </div>
+sns.pairplot(tips, hue='sex')
+```
 
-        <h2>5. 实战练习</h2>
+## 5. 实战练习
 
-        <div class="tip-box">
-            <h4><i class="fas fa-laptop-code"></i> 练习：探索性数据分析</h4>
-            <p>使用以下代码进行一个完整的数据分析流程：</p>
-        </div>
+::: details 练习：探索性数据分析
 
-        <div class="code-block">
-            <pre>import numpy as np
+```python
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -425,36 +387,12 @@ plt.colorbar(im, ax=axes[1, 1])
 plt.tight_layout()
 plt.savefig('eda_example.png', dpi=150)
 plt.show()
+```
+:::
 
-print("\n相关性矩阵:")
-print(corr)</pre>
-        </div>
+## 6. 本章小结
 
-        <h2>6. 本章小结</h2>
-
-        <ul>
-            <li><strong>NumPy：</strong>高效的数组运算，是所有科学计算库的基础</li>
-            <li><strong>Pandas：</strong>强大的数据处理能力，适合表格数据的清洗和分析</li>
-            <li><strong>Matplotlib：</strong>基础可视化工具，支持各种图表类型</li>
-            <li><strong>Seaborn：</strong>高级统计可视化，更美观的默认样式</li>
-        </ul>
-
-        <div class="chapter-nav">
-            <a href="math.html">
-                <i class="fas fa-arrow-left"></i> 上一节：数学基础
-            </a>
-            <a href="data-processing.html">
-                下一节：数据处理基础 <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 AI学习之路 - 面向软件工程毕业生的人工智能入门教程</p>
-        </div>
-    </footer>
-
-    <script src="../../js/main.js"></script>
-</body>
-</html>
+- **NumPy：** 高效的数组运算，是所有科学计算库的基础
+- **Pandas：** 强大的数据处理能力，适合表格数据的清洗和分析
+- **Matplotlib：** 基础可视化工具，支持各种图表类型
+- **Seaborn：** 高级统计可视化，更美观的默认样式

@@ -1,0 +1,18 @@
+{
+  "name": "learn-ai",
+  "version": "1.0.0",
+  "description": "面向软件工程专业毕业生的中文人工智能入门学习教程网站。",
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "keywords": ["ai", "machine-learning", "deep-learning", "tutorial", "chinese"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "markdown-it-mathjax3": "^4.3.2",
+    "vitepress": "^1.6.4"
+  }
+}

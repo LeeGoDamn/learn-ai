@@ -1,91 +1,32 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>房价预测实战 - AI入门学习教程</title>
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="chapter-page">
-    <header class="header">
-        <nav class="nav-container">
-            <a href="../../index.html" class="logo">
-                <i class="fas fa-brain"></i>
-                <span>AI学习之路</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="../../index.html">首页</a></li>
-                <li><a href="../../index.html#outline">学习大纲</a></li>
-                <li><a href="../../index.html#chapters">所有章节</a></li>
-            </ul>
-        </nav>
-    </header>
+# 房价预测实战
 
-    <div class="chapter-header">
-        <div class="container">
-            <h1><i class="fas fa-home"></i> 房价预测实战</h1>
-            <p>第4章 · 实战项目 | 预计阅读时间：60分钟</p>
-        </div>
-    </div>
+::: info 项目概述
+本项目将使用加州房价数据集，完整演示一个机器学习项目的全流程：数据探索、特征工程、模型训练、评估和优化。
+:::
 
-    <main class="chapter-content">
-        <div class="tip-box">
-            <h4><i class="fas fa-info-circle"></i> 项目概述</h4>
-            <p>本项目将使用加州房价数据集，完整演示一个机器学习项目的全流程：数据探索、特征工程、模型训练、评估和优化。</p>
-        </div>
+## 1. 项目背景
 
-        <h2>1. 项目背景</h2>
+房价预测是经典的回归问题。我们的目标是根据房屋的各种特征（如位置、面积、房龄等）预测其价格。
 
-        <p>房价预测是经典的回归问题。我们的目标是根据房屋的各种特征（如位置、面积、房龄等）预测其价格。</p>
+### 1.1 数据集介绍
 
-        <h3>1.1 数据集介绍</h3>
+我们使用加州房价数据集（California Housing Dataset），包含以下特征：
 
-        <p>我们使用加州房价数据集（California Housing Dataset），包含以下特征：</p>
+| 特征 | 描述 |
+|------|------|
+| MedInc | 街区居民收入中位数 |
+| HouseAge | 房屋年龄中位数 |
+| AveRooms | 平均房间数 |
+| AveBedrms | 平均卧室数 |
+| Population | 街区人口 |
+| AveOccup | 平均入住人数 |
+| Latitude | 纬度 |
+| Longitude | 经度 |
 
-        <table>
-            <tr>
-                <th>特征</th>
-                <th>描述</th>
-            </tr>
-            <tr>
-                <td>MedInc</td>
-                <td>街区居民收入中位数</td>
-            </tr>
-            <tr>
-                <td>HouseAge</td>
-                <td>房屋年龄中位数</td>
-            </tr>
-            <tr>
-                <td>AveRooms</td>
-                <td>平均房间数</td>
-            </tr>
-            <tr>
-                <td>AveBedrms</td>
-                <td>平均卧室数</td>
-            </tr>
-            <tr>
-                <td>Population</td>
-                <td>街区人口</td>
-            </tr>
-            <tr>
-                <td>AveOccup</td>
-                <td>平均入住人数</td>
-            </tr>
-            <tr>
-                <td>Latitude</td>
-                <td>纬度</td>
-            </tr>
-            <tr>
-                <td>Longitude</td>
-                <td>经度</td>
-            </tr>
-        </table>
+## 2. 数据探索（EDA）
 
-        <h2>2. 数据探索（EDA）</h2>
-
-        <div class="code-block">
-            <pre>import numpy as np
+```python
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -104,13 +45,13 @@ print("\n基本统计信息:")
 print(df.describe())
 
 print("\n缺失值检查:")
-print(df.isnull().sum())</pre>
-        </div>
+print(df.isnull().sum())
+```
 
-        <h3>2.1 数据分布可视化</h3>
+### 2.1 数据分布可视化
 
-        <div class="code-block">
-            <pre># 目标变量分布
+```python
+# 目标变量分布
 plt.figure(figsize=(12, 4))
 
 plt.subplot(1, 2, 1)
@@ -134,13 +75,13 @@ for i, col in enumerate(housing.feature_names):
     df[col].hist(bins=30, ax=ax, edgecolor='black')
     ax.set_title(col)
 plt.tight_layout()
-plt.show()</pre>
-        </div>
+plt.show()
+```
 
-        <h3>2.2 相关性分析</h3>
+### 2.2 相关性分析
 
-        <div class="code-block">
-            <pre># 相关性矩阵
+```python
+# 相关性矩阵
 plt.figure(figsize=(10, 8))
 corr_matrix = df.corr()
 sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', center=0, fmt='.2f')
@@ -150,13 +91,13 @@ plt.show()
 
 # 与目标变量的相关性
 print("\n与房价的相关性:")
-print(corr_matrix['MedHouseVal'].sort_values(ascending=False))</pre>
-        </div>
+print(corr_matrix['MedHouseVal'].sort_values(ascending=False))
+```
 
-        <h3>2.3 地理分布可视化</h3>
+### 2.3 地理分布可视化
 
-        <div class="code-block">
-            <pre># 地理位置与房价的关系
+```python
+# 地理位置与房价的关系
 plt.figure(figsize=(12, 8))
 plt.scatter(df['Longitude'], df['Latitude'], 
             c=df['MedHouseVal'], cmap='viridis', 
@@ -165,13 +106,13 @@ plt.colorbar(label='房价中位数')
 plt.xlabel('经度')
 plt.ylabel('纬度')
 plt.title('加州房价地理分布')
-plt.show()</pre>
-        </div>
+plt.show()
+```
 
-        <h2>3. 数据预处理</h2>
+## 3. 数据预处理
 
-        <div class="code-block">
-            <pre>from sklearn.model_selection import train_test_split
+```python
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 # 分离特征和目标
@@ -193,13 +134,13 @@ X_test_scaled = scaler.transform(X_test)
 
 print("\n标准化后的特征统计:")
 print(f"均值: {X_train_scaled.mean(axis=0).round(2)}")
-print(f"标准差: {X_train_scaled.std(axis=0).round(2)}")</pre>
-        </div>
+print(f"标准差: {X_train_scaled.std(axis=0).round(2)}")
+```
 
-        <h2>4. 模型训练与比较</h2>
+## 4. 模型训练与比较
 
-        <div class="code-block">
-            <pre>from sklearn.linear_model import LinearRegression, Ridge, Lasso
+```python
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
@@ -249,13 +190,13 @@ for name, model in models.items():
 # 结果汇总
 results_df = pd.DataFrame(results_list)
 print("\n模型对比:")
-print(results_df.to_string(index=False))</pre>
-        </div>
+print(results_df.to_string(index=False))
+```
 
-        <h3>4.1 模型性能可视化</h3>
+### 4.1 模型性能可视化
 
-        <div class="code-block">
-            <pre># 模型对比图
+```python
+# 模型对比图
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
 # R² 分数对比
@@ -283,13 +224,13 @@ ax2.set_xticklabels(results_df['Model'], rotation=45, ha='right')
 ax2.legend()
 
 plt.tight_layout()
-plt.show()</pre>
-        </div>
+plt.show()
+```
 
-        <h2>5. 特征重要性分析</h2>
+## 5. 特征重要性分析
 
-        <div class="code-block">
-            <pre># 使用随机森林的特征重要性
+```python
+# 使用随机森林的特征重要性
 rf_model = trained_models['Random Forest']
 
 feature_importance = pd.DataFrame({
@@ -306,23 +247,15 @@ plt.tight_layout()
 plt.show()
 
 print("特征重要性排名:")
-print(feature_importance)</pre>
-        </div>
+print(feature_importance)
+```
 
-        <h2>6. 超参数调优</h2>
+## 6. 超参数调优
 
-        <div class="code-block">
-            <pre>from sklearn.model_selection import GridSearchCV, cross_val_score
+```python
+from sklearn.model_selection import GridSearchCV, cross_val_score
 
 # 对随机森林进行超参数调优
-param_grid = {
-    'n_estimators': [50, 100, 200],
-    'max_depth': [5, 10, 15, None],
-    'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 2, 4]
-}
-
-# 使用较小的参数空间进行演示（完整调优可能需要很长时间）
 param_grid_small = {
     'n_estimators': [100, 200],
     'max_depth': [10, 15],
@@ -342,13 +275,13 @@ print(f"最佳交叉验证R²: {grid_search.best_score_:.4f}")
 best_model = grid_search.best_estimator_
 y_pred = best_model.predict(X_test_scaled)
 print(f"测试集R²: {r2_score(y_test, y_pred):.4f}")
-print(f"测试集RMSE: {np.sqrt(mean_squared_error(y_test, y_pred)):.4f}")</pre>
-        </div>
+print(f"测试集RMSE: {np.sqrt(mean_squared_error(y_test, y_pred)):.4f}")
+```
 
-        <h2>7. 预测结果分析</h2>
+## 7. 预测结果分析
 
-        <div class="code-block">
-            <pre># 使用最佳模型进行预测
+```python
+# 使用最佳模型进行预测
 y_pred = best_model.predict(X_test_scaled)
 
 # 预测值 vs 真实值
@@ -375,13 +308,13 @@ plt.show()
 
 # 残差统计
 print(f"残差均值: {residuals.mean():.4f}")
-print(f"残差标准差: {residuals.std():.4f}")</pre>
-        </div>
+print(f"残差标准差: {residuals.std():.4f}")
+```
 
-        <h2>8. 模型保存与加载</h2>
+## 8. 模型保存与加载
 
-        <div class="code-block">
-            <pre>import joblib
+```python
+import joblib
 
 # 保存模型和标准化器
 joblib.dump(best_model, 'house_price_model.pkl')
@@ -396,48 +329,23 @@ loaded_scaler = joblib.load('scaler.pkl')
 new_data = np.array([[8.3, 41, 6.98, 1.02, 322, 2.56, 37.88, -122.23]])
 new_data_scaled = loaded_scaler.transform(new_data)
 prediction = loaded_model.predict(new_data_scaled)
-print(f"预测房价: ${prediction[0] * 100000:.2f}")</pre>
-        </div>
+print(f"预测房价: ${prediction[0] * 100000:.2f}")
+```
 
-        <h2>9. 项目总结</h2>
+## 9. 项目总结
 
-        <div class="tip-box">
-            <h4><i class="fas fa-check-circle"></i> 关键收获</h4>
-            <ul>
-                <li><strong>数据探索</strong>：理解数据分布和特征关系是建模的基础</li>
-                <li><strong>特征工程</strong>：标准化对某些算法至关重要</li>
-                <li><strong>模型比较</strong>：集成方法（如随机森林）通常优于单一模型</li>
-                <li><strong>超参数调优</strong>：可以进一步提升模型性能</li>
-                <li><strong>模型评估</strong>：关注训练集和测试集的差距，避免过拟合</li>
-            </ul>
-        </div>
+::: tip 关键收获
+- **数据探索**：理解数据分布和特征关系是建模的基础
+- **特征工程**：标准化对某些算法至关重要
+- **模型比较**：集成方法（如随机森林）通常优于单一模型
+- **超参数调优**：可以进一步提升模型性能
+- **模型评估**：关注训练集和测试集的差距，避免过拟合
+:::
 
-        <h3>9.1 进一步改进方向</h3>
+### 9.1 进一步改进方向
 
-        <ul>
-            <li>尝试更多特征工程（如交叉特征、多项式特征）</li>
-            <li>使用XGBoost或LightGBM等更强的模型</li>
-            <li>进行更细致的超参数调优</li>
-            <li>尝试神经网络模型</li>
-            <li>集成多个模型（Stacking）</li>
-        </ul>
-
-        <div class="chapter-nav">
-            <a href="../deep-learning/neural-networks.html">
-                <i class="fas fa-arrow-left"></i> 上一节：神经网络基础
-            </a>
-            <a href="../../index.html">
-                返回首页 <i class="fas fa-home"></i>
-            </a>
-        </div>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 AI学习之路 - 面向软件工程毕业生的人工智能入门教程</p>
-        </div>
-    </footer>
-
-    <script src="../../js/main.js"></script>
-</body>
-</html>
+- 尝试更多特征工程（如交叉特征、多项式特征）
+- 使用XGBoost或LightGBM等更强的模型
+- 进行更细致的超参数调优
+- 尝试神经网络模型
+- 集成多个模型（Stacking）
