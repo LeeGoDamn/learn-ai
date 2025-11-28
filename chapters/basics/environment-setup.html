@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开发环境搭建 - AI入门学习教程</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="chapter-page">
+    <header class="header">
+        <nav class="nav-container">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-brain"></i>
+                <span>AI学习之路</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../../index.html">首页</a></li>
+                <li><a href="../../index.html#outline">学习大纲</a></li>
+                <li><a href="../../index.html#chapters">所有章节</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="chapter-header">
+        <div class="container">
+            <h1><i class="fas fa-tools"></i> 开发环境搭建</h1>
+            <p>第1章 · AI基础概念 | 预计阅读时间：25分钟</p>
+        </div>
+    </div>
+
+    <main class="chapter-content">
+        <div class="tip-box">
+            <h4><i class="fas fa-info-circle"></i> 本章概述</h4>
+            <p>本章将指导你搭建完整的AI开发环境，包括Anaconda、Jupyter Notebook、常用库安装以及GPU配置。</p>
+        </div>
+
+        <h2>1. Python环境管理</h2>
+
+        <h3>1.1 为什么需要环境管理？</h3>
+
+        <p>不同的AI项目可能需要不同版本的Python和库。环境管理工具可以：</p>
+        <ul>
+            <li>隔离不同项目的依赖，避免冲突</li>
+            <li>方便复制和共享环境配置</li>
+            <li>便于切换Python版本</li>
+        </ul>
+
+        <h3>1.2 Anaconda安装</h3>
+
+        <p><strong>Anaconda</strong>是最流行的Python科学计算发行版，预装了大量常用库。</p>
+
+        <div class="tip-box">
+            <h4><i class="fas fa-download"></i> 下载安装</h4>
+            <ol>
+                <li>访问 <a href="https://www.anaconda.com/download" target="_blank">Anaconda官网</a></li>
+                <li>下载对应操作系统的安装包</li>
+                <li>运行安装程序，按提示完成安装</li>
+                <li>建议勾选"添加到环境变量"选项</li>
+            </ol>
+        </div>
+
+        <h3>1.3 Conda常用命令</h3>
+
+        <div class="code-block">
+            <pre># 查看版本
+conda --version
+
+# 创建新环境
+conda create -n ai_env python=3.10
+
+# 激活环境
+conda activate ai_env
+
+# 退出环境
+conda deactivate
+
+# 查看所有环境
+conda env list
+
+# 删除环境
+conda remove -n ai_env --all
+
+# 导出环境配置
+conda env export > environment.yml
+
+# 从配置文件创建环境
+conda env create -f environment.yml</pre>
+        </div>
+
+        <h3>1.4 安装常用库</h3>
+
+        <div class="code-block">
+            <pre># 激活环境后安装库
+conda activate ai_env
+
+# 基础科学计算库
+conda install numpy pandas matplotlib seaborn
+
+# 机器学习库
+conda install scikit-learn
+
+# 深度学习框架（二选一）
+# PyTorch（推荐）
+conda install pytorch torchvision torchaudio -c pytorch
+
+# TensorFlow
+conda install tensorflow
+
+# 其他常用库
+conda install jupyter jupyterlab
+pip install tqdm  # 进度条</pre>
+        </div>
+
+        <h2>2. Jupyter Notebook</h2>
+
+        <p><strong>Jupyter Notebook</strong>是交互式编程环境，非常适合数据分析和机器学习实验。</p>
+
+        <h3>2.1 启动Jupyter</h3>
+
+        <div class="code-block">
+            <pre># 启动 Jupyter Notebook
+jupyter notebook
+
+# 或启动 Jupyter Lab（更现代的界面）
+jupyter lab</pre>
+        </div>
+
+        <p>执行后会自动打开浏览器，访问 <code>http://localhost:8888</code></p>
+
+        <h3>2.2 常用快捷键</h3>
+
+        <table>
+            <tr>
+                <th>快捷键</th>
+                <th>功能</th>
+                <th>模式</th>
+            </tr>
+            <tr>
+                <td>Shift + Enter</td>
+                <td>运行当前单元格，跳到下一个</td>
+                <td>通用</td>
+            </tr>
+            <tr>
+                <td>Ctrl + Enter</td>
+                <td>运行当前单元格</td>
+                <td>通用</td>
+            </tr>
+            <tr>
+                <td>Esc</td>
+                <td>进入命令模式</td>
+                <td>编辑模式</td>
+            </tr>
+            <tr>
+                <td>Enter</td>
+                <td>进入编辑模式</td>
+                <td>命令模式</td>
+            </tr>
+            <tr>
+                <td>A / B</td>
+                <td>在上方/下方插入单元格</td>
+                <td>命令模式</td>
+            </tr>
+            <tr>
+                <td>D + D</td>
+                <td>删除当前单元格</td>
+                <td>命令模式</td>
+            </tr>
+            <tr>
+                <td>M / Y</td>
+                <td>切换为Markdown/代码</td>
+                <td>命令模式</td>
+            </tr>
+        </table>
+
+        <h3>2.3 Notebook最佳实践</h3>
+
+        <ul>
+            <li>每个单元格只做一件事，保持简洁</li>
+            <li>使用Markdown单元格添加说明文档</li>
+            <li>定期保存，使用版本控制</li>
+            <li>运行顺序很重要，建议从头到尾运行</li>
+            <li>重要实验结果要截图或导出</li>
+        </ul>
+
+        <h2>3. Google Colab（免费GPU）</h2>
+
+        <p><strong>Google Colab</strong>是谷歌提供的免费云端Jupyter环境，无需本地配置，还提供免费GPU。</p>
+
+        <h3>3.1 使用Colab</h3>
+
+        <ol>
+            <li>访问 <a href="https://colab.research.google.com" target="_blank">Google Colab</a></li>
+            <li>登录Google账号</li>
+            <li>新建笔记本或上传本地.ipynb文件</li>
+        </ol>
+
+        <h3>3.2 启用GPU</h3>
+
+        <div class="tip-box">
+            <h4><i class="fas fa-bolt"></i> 启用GPU加速</h4>
+            <ol>
+                <li>菜单栏 → 修改 → 笔记本设置</li>
+                <li>硬件加速器选择"GPU"或"TPU"</li>
+                <li>点击保存</li>
+            </ol>
+        </div>
+
+        <div class="code-block">
+            <pre># 检查GPU是否可用
+import torch
+print(f"PyTorch版本: {torch.__version__}")
+print(f"CUDA可用: {torch.cuda.is_available()}")
+if torch.cuda.is_available():
+    print(f"GPU型号: {torch.cuda.get_device_name(0)}")</pre>
+        </div>
+
+        <h3>3.3 Colab实用技巧</h3>
+
+        <div class="code-block">
+            <pre># 挂载Google Drive（持久存储）
+from google.colab import drive
+drive.mount('/content/drive')
+
+# 安装额外的库
+!pip install transformers
+
+# 下载文件
+!wget https://example.com/data.csv
+
+# 查看GPU使用情况
+!nvidia-smi</pre>
+        </div>
+
+        <h2>4. GPU配置（本地）</h2>
+
+        <p>如果你有NVIDIA GPU，可以配置本地CUDA环境以加速深度学习训练。</p>
+
+        <h3>4.1 检查GPU</h3>
+
+        <div class="code-block">
+            <pre># Windows: 打开命令提示符
+nvidia-smi
+
+# 如果能显示GPU信息，说明驱动已安装</pre>
+        </div>
+
+        <h3>4.2 安装CUDA工具包</h3>
+
+        <ol>
+            <li>确认GPU支持的CUDA版本</li>
+            <li>安装对应版本的CUDA Toolkit</li>
+            <li>安装cuDNN库</li>
+            <li>配置环境变量</li>
+        </ol>
+
+        <div class="tip-box warning">
+            <h4><i class="fas fa-exclamation-circle"></i> 版本兼容性</h4>
+            <p>PyTorch和TensorFlow对CUDA版本有要求。建议先确认框架需要的CUDA版本，再安装对应版本。</p>
+            <p>最简单的方式是使用conda安装，它会自动处理依赖：</p>
+        </div>
+
+        <div class="code-block">
+            <pre># PyTorch with CUDA 11.8
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+
+# TensorFlow with GPU support
+pip install tensorflow[and-cuda]</pre>
+        </div>
+
+        <h2>5. 常用IDE配置</h2>
+
+        <h3>5.1 VS Code</h3>
+
+        <p>Visual Studio Code是最流行的代码编辑器，对Python和Jupyter有很好的支持。</p>
+
+        <div class="tip-box">
+            <h4><i class="fas fa-puzzle-piece"></i> 推荐扩展</h4>
+            <ul>
+                <li><strong>Python</strong> - 微软官方Python支持</li>
+                <li><strong>Jupyter</strong> - 在VS Code中运行Notebook</li>
+                <li><strong>Pylance</strong> - Python语言服务器</li>
+                <li><strong>GitHub Copilot</strong> - AI编程助手</li>
+                <li><strong>GitLens</strong> - Git增强</li>
+            </ul>
+        </div>
+
+        <h3>5.2 PyCharm</h3>
+
+        <p>PyCharm是专业的Python IDE，社区版免费，对大型项目支持较好。</p>
+
+        <h2>6. 验证环境</h2>
+
+        <p>运行以下代码验证环境是否正确配置：</p>
+
+        <div class="code-block">
+            <pre>import sys
+print(f"Python版本: {sys.version}")
+
+import numpy as np
+print(f"NumPy版本: {np.__version__}")
+
+import pandas as pd
+print(f"Pandas版本: {pd.__version__}")
+
+import sklearn
+print(f"Scikit-learn版本: {sklearn.__version__}")
+
+import matplotlib
+print(f"Matplotlib版本: {matplotlib.__version__}")
+
+# 深度学习框架
+try:
+    import torch
+    print(f"PyTorch版本: {torch.__version__}")
+    print(f"CUDA可用: {torch.cuda.is_available()}")
+except ImportError:
+    print("PyTorch未安装")
+
+try:
+    import tensorflow as tf
+    print(f"TensorFlow版本: {tf.__version__}")
+    print(f"GPU可用: {len(tf.config.list_physical_devices('GPU')) > 0}")
+except ImportError:
+    print("TensorFlow未安装")
+
+print("\n环境配置完成！可以开始学习了！")</pre>
+        </div>
+
+        <h2>7. 推荐的项目结构</h2>
+
+        <div class="code-block">
+            <pre>my_ai_project/
+├── data/                   # 数据文件
+│   ├── raw/               # 原始数据
+│   └── processed/         # 处理后的数据
+├── notebooks/             # Jupyter笔记本
+│   ├── 01_eda.ipynb      # 探索性分析
+│   ├── 02_training.ipynb # 模型训练
+│   └── 03_evaluation.ipynb
+├── src/                   # 源代码
+│   ├── __init__.py
+│   ├── data_processing.py
+│   ├── models.py
+│   └── utils.py
+├── models/                # 保存的模型
+├── results/               # 结果和图表
+├── requirements.txt       # 依赖列表
+├── environment.yml        # Conda环境配置
+└── README.md             # 项目说明</pre>
+        </div>
+
+        <h2>8. 本章小结</h2>
+
+        <ul>
+            <li>使用Anaconda管理Python环境和依赖</li>
+            <li>Jupyter Notebook是交互式实验的首选工具</li>
+            <li>Google Colab提供免费GPU，适合没有本地GPU的学习者</li>
+            <li>本地GPU配置需要注意CUDA版本兼容性</li>
+            <li>良好的项目结构有助于代码管理和协作</li>
+        </ul>
+
+        <div class="tip-box">
+            <h4><i class="fas fa-rocket"></i> 下一步</h4>
+            <p>环境配置完成后，我们将开始学习机器学习的核心算法——从线性回归开始！</p>
+        </div>
+
+        <div class="chapter-nav">
+            <a href="ml-overview.html">
+                <i class="fas fa-arrow-left"></i> 上一节：机器学习概述
+            </a>
+            <a href="../machine-learning/linear-regression.html">
+                下一节：线性回归 <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 AI学习之路 - 面向软件工程毕业生的人工智能入门教程</p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html>

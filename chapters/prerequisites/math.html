@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学基础 - AI入门学习教程</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="chapter-page">
+    <header class="header">
+        <nav class="nav-container">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-brain"></i>
+                <span>AI学习之路</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../../index.html">首页</a></li>
+                <li><a href="../../index.html#outline">学习大纲</a></li>
+                <li><a href="../../index.html#chapters">所有章节</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="chapter-header">
+        <div class="container">
+            <h1><i class="fas fa-square-root-variable"></i> 数学基础</h1>
+            <p>第0章 · 前置知识 | 预计阅读时间：45分钟</p>
+        </div>
+    </div>
+
+    <main class="chapter-content">
+        <div class="tip-box">
+            <h4><i class="fas fa-info-circle"></i> 本章概述</h4>
+            <p>数学是机器学习和深度学习的基础。本章将帮助你回顾并补充AI学习所需的核心数学知识，包括线性代数、微积分和概率统计。</p>
+        </div>
+
+        <h2>1. 线性代数基础</h2>
+        
+        <p>线性代数是机器学习中最重要的数学工具之一。几乎所有的机器学习算法都涉及到向量和矩阵运算。</p>
+
+        <h3>1.1 向量 (Vector)</h3>
+        
+        <p>向量是一个有序的数字列表，可以表示为列向量或行向量。在机器学习中，向量常用于表示数据特征。</p>
+
+        <div class="formula-block">
+            $$\vec{x} = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}$$
+        </div>
+
+        <p><strong>常用向量运算：</strong></p>
+        <ul>
+            <li><strong>向量加法：</strong>对应元素相加</li>
+            <li><strong>标量乘法：</strong>每个元素乘以标量</li>
+            <li><strong>点积（内积）：</strong>\(\vec{a} \cdot \vec{b} = \sum_{i=1}^{n} a_i b_i\)</li>
+            <li><strong>向量范数：</strong>\(||\vec{x}||_2 = \sqrt{\sum_{i=1}^{n} x_i^2}\)（L2范数）</li>
+        </ul>
+
+        <div class="code-block">
+            <pre>import numpy as np
+
+# 创建向量
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+# 向量加法
+print(a + b)  # [5 7 9]
+
+# 标量乘法
+print(2 * a)  # [2 4 6]
+
+# 点积
+print(np.dot(a, b))  # 32
+
+# L2范数
+print(np.linalg.norm(a))  # 3.7416...</pre>
+        </div>
+
+        <h3>1.2 矩阵 (Matrix)</h3>
+        
+        <p>矩阵是一个二维数组，在机器学习中用于表示数据集、权重参数等。</p>
+
+        <div class="formula-block">
+            $$A = \begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{bmatrix}$$
+        </div>
+
+        <p><strong>常用矩阵运算：</strong></p>
+        
+        <table>
+            <tr>
+                <th>运算</th>
+                <th>描述</th>
+                <th>条件</th>
+            </tr>
+            <tr>
+                <td>矩阵加法</td>
+                <td>对应元素相加</td>
+                <td>相同形状</td>
+            </tr>
+            <tr>
+                <td>矩阵乘法</td>
+                <td>\(C_{ij} = \sum_k A_{ik} B_{kj}\)</td>
+                <td>A的列数 = B的行数</td>
+            </tr>
+            <tr>
+                <td>转置</td>
+                <td>行列互换 \(A^T\)</td>
+                <td>任意矩阵</td>
+            </tr>
+            <tr>
+                <td>逆矩阵</td>
+                <td>\(A^{-1}A = I\)</td>
+                <td>方阵且可逆</td>
+            </tr>
+        </table>
+
+        <div class="code-block">
+            <pre>import numpy as np
+
+# 创建矩阵
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+
+# 矩阵乘法
+print(np.dot(A, B))
+# [[19 22]
+#  [43 50]]
+
+# 转置
+print(A.T)
+# [[1 3]
+#  [2 4]]
+
+# 逆矩阵
+print(np.linalg.inv(A))
+# [[-2.   1. ]
+#  [ 1.5 -0.5]]
+
+# 特征值和特征向量
+eigenvalues, eigenvectors = np.linalg.eig(A)
+print("特征值:", eigenvalues)</pre>
+        </div>
+
+        <div class="tip-box">
+            <h4><i class="fas fa-lightbulb"></i> 为什么重要？</h4>
+            <p>在神经网络中，前向传播本质上就是矩阵乘法：\(y = Wx + b\)，其中W是权重矩阵，x是输入向量，b是偏置向量。</p>
+        </div>
+
+        <h2>2. 微积分基础</h2>
+
+        <p>微积分在机器学习中主要用于优化算法，特别是梯度下降法。理解导数和偏导数对于理解模型训练过程至关重要。</p>
+
+        <h3>2.1 导数 (Derivative)</h3>
+        
+        <p>导数表示函数在某一点的变化率，几何意义是曲线在该点的切线斜率。</p>
+
+        <div class="formula-block">
+            $$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
+        </div>
+
+        <p><strong>常用导数公式：</strong></p>
+        <ul>
+            <li>\(\frac{d}{dx}(x^n) = nx^{n-1}\)</li>
+            <li>\(\frac{d}{dx}(e^x) = e^x\)</li>
+            <li>\(\frac{d}{dx}(\ln x) = \frac{1}{x}\)</li>
+            <li>\(\frac{d}{dx}(\sin x) = \cos x\)</li>
+        </ul>
+
+        <h3>2.2 偏导数与梯度</h3>
+        
+        <p>对于多变量函数，偏导数表示函数对某一变量的变化率。梯度是所有偏导数组成的向量，指向函数增长最快的方向。</p>
+
+        <div class="formula-block">
+            $$\nabla f = \begin{bmatrix} \frac{\partial f}{\partial x_1} \\ \frac{\partial f}{\partial x_2} \\ \vdots \\ \frac{\partial f}{\partial x_n} \end{bmatrix}$$
+        </div>
+
+        <div class="code-block">
+            <pre># 使用数值方法计算梯度
+import numpy as np
+
+def numerical_gradient(f, x, h=1e-5):
+    """计算函数f在点x处的数值梯度"""
+    grad = np.zeros_like(x)
+    for i in range(len(x)):
+        x_plus = x.copy()
+        x_minus = x.copy()
+        x_plus[i] += h
+        x_minus[i] -= h
+        grad[i] = (f(x_plus) - f(x_minus)) / (2 * h)
+    return grad
+
+# 示例：f(x, y) = x^2 + y^2
+def f(x):
+    return x[0]**2 + x[1]**2
+
+point = np.array([3.0, 4.0])
+print(numerical_gradient(f, point))  # [6. 8.]
+# 理论值：梯度 = [2x, 2y] = [6, 8]</pre>
+        </div>
+
+        <h3>2.3 链式法则</h3>
+        
+        <p>链式法则是反向传播算法的数学基础，用于计算复合函数的导数。</p>
+
+        <div class="formula-block">
+            $$\frac{dz}{dx} = \frac{dz}{dy} \cdot \frac{dy}{dx}$$
+        </div>
+
+        <div class="tip-box important">
+            <h4><i class="fas fa-exclamation-triangle"></i> 核心概念</h4>
+            <p>神经网络的反向传播算法本质上就是链式法则的应用。通过链式法则，我们可以高效地计算损失函数对每个参数的梯度。</p>
+        </div>
+
+        <h2>3. 概率论与统计基础</h2>
+
+        <p>概率论为机器学习中的不确定性建模提供了数学框架，是理解贝叶斯学习、生成模型等的基础。</p>
+
+        <h3>3.1 基本概念</h3>
+        
+        <ul>
+            <li><strong>概率：</strong>事件发生可能性的度量，范围[0, 1]</li>
+            <li><strong>条件概率：</strong>\(P(A|B) = \frac{P(A \cap B)}{P(B)}\)</li>
+            <li><strong>贝叶斯定理：</strong>\(P(A|B) = \frac{P(B|A)P(A)}{P(B)}\)</li>
+        </ul>
+
+        <h3>3.2 常见概率分布</h3>
+
+        <table>
+            <tr>
+                <th>分布</th>
+                <th>公式</th>
+                <th>应用场景</th>
+            </tr>
+            <tr>
+                <td>伯努利分布</td>
+                <td>\(P(X=1) = p\)</td>
+                <td>二分类问题</td>
+            </tr>
+            <tr>
+                <td>高斯分布</td>
+                <td>\(f(x) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}\)</td>
+                <td>连续变量建模</td>
+            </tr>
+            <tr>
+                <td>多项式分布</td>
+                <td>伯努利分布的推广</td>
+                <td>多分类问题</td>
+            </tr>
+        </table>
+
+        <h3>3.3 期望、方差与协方差</h3>
+
+        <ul>
+            <li><strong>期望（均值）：</strong>\(E[X] = \sum_x x \cdot P(X=x)\)</li>
+            <li><strong>方差：</strong>\(Var(X) = E[(X - E[X])^2]\)</li>
+            <li><strong>协方差：</strong>\(Cov(X, Y) = E[(X - E[X])(Y - E[Y])]\)</li>
+        </ul>
+
+        <div class="code-block">
+            <pre>import numpy as np
+from scipy import stats
+
+# 生成正态分布数据
+data = np.random.normal(loc=0, scale=1, size=1000)
+
+# 计算统计量
+print(f"均值: {np.mean(data):.4f}")
+print(f"方差: {np.var(data):.4f}")
+print(f"标准差: {np.std(data):.4f}")
+
+# 正态分布PDF
+x = np.linspace(-3, 3, 100)
+pdf = stats.norm.pdf(x, loc=0, scale=1)</pre>
+        </div>
+
+        <h2>4. 最优化基础</h2>
+
+        <p>机器学习模型训练的本质是求解优化问题，即找到使损失函数最小的参数。</p>
+
+        <h3>4.1 梯度下降法</h3>
+        
+        <p>梯度下降是最常用的优化算法，通过沿着梯度的反方向迭代更新参数。</p>
+
+        <div class="formula-block">
+            $$\theta_{t+1} = \theta_t - \eta \nabla L(\theta_t)$$
+        </div>
+
+        <p>其中 \(\eta\) 是学习率，\(\nabla L\) 是损失函数的梯度。</p>
+
+        <div class="code-block">
+            <pre>import numpy as np
+
+def gradient_descent(gradient_func, initial_params, learning_rate=0.01, epochs=100):
+    """基础梯度下降算法"""
+    params = initial_params.copy()
+    history = [params.copy()]
+    
+    for _ in range(epochs):
+        grad = gradient_func(params)
+        params = params - learning_rate * grad
+        history.append(params.copy())
+    
+    return params, history
+
+# 示例：最小化 f(x) = x^2
+def gradient(x):
+    return 2 * x
+
+x0 = np.array([5.0])
+optimal_x, history = gradient_descent(gradient, x0)
+print(f"最优解: {optimal_x[0]:.6f}")  # 接近0</pre>
+        </div>
+
+        <h3>4.2 梯度下降的变体</h3>
+
+        <table>
+            <tr>
+                <th>算法</th>
+                <th>特点</th>
+            </tr>
+            <tr>
+                <td>批量梯度下降 (BGD)</td>
+                <td>使用全部数据计算梯度，稳定但慢</td>
+            </tr>
+            <tr>
+                <td>随机梯度下降 (SGD)</td>
+                <td>每次使用单个样本，快但不稳定</td>
+            </tr>
+            <tr>
+                <td>小批量梯度下降</td>
+                <td>折中方案，最常用</td>
+            </tr>
+            <tr>
+                <td>Adam</td>
+                <td>自适应学习率，深度学习首选</td>
+            </tr>
+        </table>
+
+        <h2>5. 本章小结</h2>
+
+        <ul>
+            <li><strong>线性代数：</strong>向量和矩阵运算是数据表示和模型计算的基础</li>
+            <li><strong>微积分：</strong>导数和梯度用于模型优化，链式法则是反向传播的核心</li>
+            <li><strong>概率统计：</strong>为不确定性建模提供数学框架</li>
+            <li><strong>最优化：</strong>梯度下降法是训练模型的核心算法</li>
+        </ul>
+
+        <div class="tip-box">
+            <h4><i class="fas fa-book"></i> 推荐学习资源</h4>
+            <ul>
+                <li>3Blue1Brown《线性代数的本质》视频系列</li>
+                <li>《深度学习》（花书）第2-4章数学基础</li>
+                <li>Khan Academy 微积分和概率统计课程</li>
+            </ul>
+        </div>
+
+        <div class="chapter-nav">
+            <a href="../../index.html">
+                <i class="fas fa-home"></i> 返回首页
+            </a>
+            <a href="python-scientific.html">
+                下一节：Python科学计算 <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 AI学习之路 - 面向软件工程毕业生的人工智能入门教程</p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html>

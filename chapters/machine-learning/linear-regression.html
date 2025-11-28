@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>线性回归 - AI入门学习教程</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="chapter-page">
+    <header class="header">
+        <nav class="nav-container">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-brain"></i>
+                <span>AI学习之路</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../../index.html">首页</a></li>
+                <li><a href="../../index.html#outline">学习大纲</a></li>
+                <li><a href="../../index.html#chapters">所有章节</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="chapter-header">
+        <div class="container">
+            <h1><i class="fas fa-chart-line"></i> 线性回归</h1>
+            <p>第2章 · 机器学习入门 | 预计阅读时间：45分钟</p>
+        </div>
+    </div>
+
+    <main class="chapter-content">
+        <div class="tip-box">
+            <h4><i class="fas fa-info-circle"></i> 本章概述</h4>
+            <p>线性回归是最基础的机器学习算法，理解它对于掌握更复杂的模型至关重要。本章将从原理讲起，手把手实现梯度下降，并使用sklearn进行实战。</p>
+        </div>
+
+        <h2>1. 什么是线性回归</h2>
+
+        <p>线性回归是一种用于预测连续数值的监督学习算法。它假设输入特征和输出之间存在线性关系。</p>
+
+        <h3>1.1 一元线性回归</h3>
+
+        <p>最简单的情况是只有一个特征的线性回归：</p>
+
+        <div class="formula-block">
+            $$y = wx + b$$
+        </div>
+
+        <ul>
+            <li>\(y\) - 预测值（目标变量）</li>
+            <li>\(x\) - 输入特征</li>
+            <li>\(w\) - 权重（斜率）</li>
+            <li>\(b\) - 偏置（截距）</li>
+        </ul>
+
+        <h3>1.2 多元线性回归</h3>
+
+        <p>当有多个特征时：</p>
+
+        <div class="formula-block">
+            $$y = w_1x_1 + w_2x_2 + ... + w_nx_n + b = \mathbf{w}^T\mathbf{x} + b$$
+        </div>
+
+        <p>用矩阵形式表示更简洁。</p>
+
+        <h2>2. 损失函数</h2>
+
+        <p>为了训练模型，我们需要一个衡量预测好坏的指标——损失函数。线性回归通常使用<strong>均方误差（MSE）</strong>：</p>
+
+        <div class="formula-block">
+            $$L(w, b) = \frac{1}{m}\sum_{i=1}^{m}(y_i - \hat{y}_i)^2 = \frac{1}{m}\sum_{i=1}^{m}(y_i - (wx_i + b))^2$$
+        </div>
+
+        <p>其中 \(m\) 是样本数量，\(y_i\) 是真实值，\(\hat{y}_i\) 是预测值。</p>
+
+        <div class="tip-box">
+            <h4><i class="fas fa-lightbulb"></i> 为什么用平方？</h4>
+            <ul>
+                <li>平方可以放大大误差，使模型更关注大偏差</li>
+                <li>平方使正负误差不会相互抵消</li>
+                <li>平方函数可导，便于优化</li>
+            </ul>
+        </div>
+
+        <h2>3. 梯度下降</h2>
+
+        <p>梯度下降是求解最优参数的核心算法。其思想是：沿着损失函数梯度的反方向更新参数，逐步找到最小值。</p>
+
+        <h3>3.1 算法步骤</h3>
+
+        <ol>
+            <li>随机初始化参数 \(w\) 和 \(b\)</li>
+            <li>计算损失函数对参数的梯度</li>
+            <li>更新参数：\(w = w - \eta \frac{\partial L}{\partial w}\)</li>
+            <li>重复步骤2-3直到收敛</li>
+        </ol>
+
+        <h3>3.2 梯度计算</h3>
+
+        <p>对于一元线性回归，梯度公式为：</p>
+
+        <div class="formula-block">
+            $$\frac{\partial L}{\partial w} = \frac{2}{m}\sum_{i=1}^{m}(wx_i + b - y_i)x_i$$
+            $$\frac{\partial L}{\partial b} = \frac{2}{m}\sum_{i=1}^{m}(wx_i + b - y_i)$$
+        </div>
+
+        <h3>3.3 可视化演示</h3>
+
+        <div class="demo-container">
+            <h4>线性回归梯度下降演示</h4>
+            <canvas id="lrCanvas" width="600" height="400" style="width: 100%; max-width: 600px; display: block; margin: 0 auto;"></canvas>
+            <div style="text-align: center; margin-top: 15px;">
+                <button id="startDemo" style="padding: 10px 20px; margin-right: 10px; cursor: pointer;">开始训练</button>
+                <button id="resetDemo" style="padding: 10px 20px; cursor: pointer;">重置</button>
+            </div>
+        </div>
+
+        <h2>4. 从零实现线性回归</h2>
+
+        <div class="code-block">
+            <pre>import numpy as np
+import matplotlib.pyplot as plt
+
+# 生成模拟数据
+np.random.seed(42)
+X = 2 * np.random.rand(100, 1)
+y = 4 + 3 * X + np.random.randn(100, 1)  # y = 4 + 3x + 噪声
+
+# 可视化数据
+plt.scatter(X, y, alpha=0.6)
+plt.xlabel('X')
+plt.ylabel('y')
+plt.title('训练数据')
+plt.show()
+
+class LinearRegressionScratch:
+    def __init__(self, learning_rate=0.01, n_iterations=1000):
+        self.lr = learning_rate
+        self.n_iterations = n_iterations
+        self.w = None
+        self.b = None
+        self.losses = []
+    
+    def fit(self, X, y):
+        m, n_features = X.shape
+        
+        # 初始化参数
+        self.w = np.zeros((n_features, 1))
+        self.b = 0
+        
+        # 梯度下降
+        for i in range(self.n_iterations):
+            # 预测
+            y_pred = np.dot(X, self.w) + self.b
+            
+            # 计算损失
+            loss = np.mean((y - y_pred) ** 2)
+            self.losses.append(loss)
+            
+            # 计算梯度
+            dw = -(2/m) * np.dot(X.T, (y - y_pred))
+            db = -(2/m) * np.sum(y - y_pred)
+            
+            # 更新参数
+            self.w -= self.lr * dw
+            self.b -= self.lr * db
+            
+            if i % 100 == 0:
+                print(f"Iteration {i}, Loss: {loss:.4f}")
+        
+        return self
+    
+    def predict(self, X):
+        return np.dot(X, self.w) + self.b
+
+# 训练模型
+model = LinearRegressionScratch(learning_rate=0.1, n_iterations=1000)
+model.fit(X, y)
+
+print(f"\n学习到的参数:")
+print(f"w = {model.w[0][0]:.4f} (真实值: 3)")
+print(f"b = {model.b:.4f} (真实值: 4)")
+
+# 绘制结果
+plt.figure(figsize=(12, 4))
+
+# 拟合曲线
+plt.subplot(1, 2, 1)
+plt.scatter(X, y, alpha=0.6, label='数据点')
+plt.plot(X, model.predict(X), color='red', label='拟合线')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.title('线性回归拟合结果')
+plt.legend()
+
+# 损失曲线
+plt.subplot(1, 2, 2)
+plt.plot(model.losses)
+plt.xlabel('Iteration')
+plt.ylabel('Loss')
+plt.title('训练损失曲线')
+
+plt.tight_layout()
+plt.show()</pre>
+        </div>
+
+        <h2>5. 使用sklearn实现</h2>
+
+        <p>在实际项目中，我们通常使用成熟的库而不是从零实现：</p>
+
+        <div class="code-block">
+            <pre>from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+import numpy as np
+
+# 生成数据
+np.random.seed(42)
+X = 2 * np.random.rand(100, 1)
+y = 4 + 3 * X.flatten() + np.random.randn(100)
+
+# 划分训练集和测试集
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 创建并训练模型
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# 预测
+y_pred = model.predict(X_test)
+
+# 评估
+print(f"权重 w: {model.coef_[0]:.4f}")
+print(f"偏置 b: {model.intercept_:.4f}")
+print(f"MSE: {mean_squared_error(y_test, y_pred):.4f}")
+print(f"R² Score: {r2_score(y_test, y_pred):.4f}")</pre>
+        </div>
+
+        <h2>6. 多元线性回归实战</h2>
+
+        <p>使用波士顿房价数据集（经典案例）进行多特征回归：</p>
+
+        <div class="code-block">
+            <pre>from sklearn.datasets import fetch_california_housing
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import mean_squared_error, r2_score
+import pandas as pd
+import numpy as np
+
+# 加载加州房价数据集
+housing = fetch_california_housing()
+X = pd.DataFrame(housing.data, columns=housing.feature_names)
+y = housing.target
+
+print("特征名称:", housing.feature_names)
+print("数据形状:", X.shape)
+print("\n数据预览:")
+print(X.head())
+
+# 划分数据
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 特征标准化
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# 训练模型
+model = LinearRegression()
+model.fit(X_train_scaled, y_train)
+
+# 预测和评估
+y_pred = model.predict(X_test_scaled)
+print(f"\nMSE: {mean_squared_error(y_test, y_pred):.4f}")
+print(f"RMSE: {np.sqrt(mean_squared_error(y_test, y_pred)):.4f}")
+print(f"R² Score: {r2_score(y_test, y_pred):.4f}")
+
+# 特征重要性
+importance = pd.DataFrame({
+    'Feature': housing.feature_names,
+    'Coefficient': model.coef_
+}).sort_values('Coefficient', key=abs, ascending=False)
+print("\n特征系数（绝对值排序）:")
+print(importance)</pre>
+        </div>
+
+        <h2>7. 正则化</h2>
+
+        <p>当特征很多时，模型容易过拟合。正则化通过限制参数大小来防止过拟合。</p>
+
+        <h3>7.1 Ridge回归（L2正则化）</h3>
+
+        <div class="formula-block">
+            $$L = \frac{1}{m}\sum_{i=1}^{m}(y_i - \hat{y}_i)^2 + \alpha\sum_{j=1}^{n}w_j^2$$
+        </div>
+
+        <h3>7.2 Lasso回归（L1正则化）</h3>
+
+        <div class="formula-block">
+            $$L = \frac{1}{m}\sum_{i=1}^{m}(y_i - \hat{y}_i)^2 + \alpha\sum_{j=1}^{n}|w_j|$$
+        </div>
+
+        <div class="code-block">
+            <pre>from sklearn.linear_model import Ridge, Lasso, ElasticNet
+
+# Ridge回归
+ridge = Ridge(alpha=1.0)
+ridge.fit(X_train_scaled, y_train)
+print(f"Ridge R²: {ridge.score(X_test_scaled, y_test):.4f}")
+
+# Lasso回归
+lasso = Lasso(alpha=0.1)
+lasso.fit(X_train_scaled, y_train)
+print(f"Lasso R²: {lasso.score(X_test_scaled, y_test):.4f}")
+
+# ElasticNet（L1和L2的组合）
+elastic = ElasticNet(alpha=0.1, l1_ratio=0.5)
+elastic.fit(X_train_scaled, y_train)
+print(f"ElasticNet R²: {elastic.score(X_test_scaled, y_test):.4f}")</pre>
+        </div>
+
+        <div class="tip-box">
+            <h4><i class="fas fa-lightbulb"></i> 正则化选择</h4>
+            <ul>
+                <li><strong>Ridge</strong>：特征多且都有一定贡献时使用</li>
+                <li><strong>Lasso</strong>：需要特征选择时使用（会使部分系数变为0）</li>
+                <li><strong>ElasticNet</strong>：结合两者优点</li>
+            </ul>
+        </div>
+
+        <h2>8. 学习率的影响</h2>
+
+        <div class="demo-container">
+            <h4>不同学习率的效果</h4>
+            <table>
+                <tr>
+                    <th>学习率</th>
+                    <th>效果</th>
+                    <th>问题</th>
+                </tr>
+                <tr>
+                    <td>太小（0.0001）</td>
+                    <td>收敛很慢</td>
+                    <td>需要很多迭代</td>
+                </tr>
+                <tr>
+                    <td>适中（0.01-0.1）</td>
+                    <td>稳定收敛</td>
+                    <td>理想选择</td>
+                </tr>
+                <tr>
+                    <td>太大（1.0）</td>
+                    <td>不收敛</td>
+                    <td>损失震荡或发散</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2>9. 本章小结</h2>
+
+        <ul>
+            <li><strong>线性回归</strong>假设特征和目标之间存在线性关系</li>
+            <li><strong>损失函数</strong>（MSE）衡量预测与真实值的差距</li>
+            <li><strong>梯度下降</strong>通过迭代更新参数来最小化损失</li>
+            <li><strong>学习率</strong>控制每次更新的步长，需要适当选择</li>
+            <li><strong>正则化</strong>（Ridge/Lasso）防止过拟合</li>
+            <li>实际项目中使用sklearn等成熟库，但理解原理很重要</li>
+        </ul>
+
+        <div class="chapter-nav">
+            <a href="../basics/environment-setup.html">
+                <i class="fas fa-arrow-left"></i> 上一节：开发环境搭建
+            </a>
+            <a href="logistic-regression.html">
+                下一节：逻辑回归与分类 <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 AI学习之路 - 面向软件工程毕业生的人工智能入门教程</p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script>
+        // 初始化线性回归演示
+        document.addEventListener('DOMContentLoaded', function() {
+            LinearRegressionDemo('lrCanvas');
+        });
+    </script>
+</body>
+</html>
